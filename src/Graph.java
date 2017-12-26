@@ -1,14 +1,9 @@
-package test;
-
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 import java.util.Queue;
-
-import javax.annotation.Generated;
+import java.util.Stack;
 
 public class Graph {
 	int val;
@@ -96,7 +91,7 @@ public class Graph {
 		return cloneGraph(v, map);
 	}
 	
-	// ask suman about islands 2 in programcreek later
+	// ask SM about islands 2 in programcreek later
 	public static void dfsIslands(int a[][], boolean visited[][], int i, int j, int n, int m) {
 		if(i >= n || j >= m || i <0 || j <0 || visited[i][j] || a[i][j] ==0)
 			return;
@@ -124,6 +119,29 @@ public class Graph {
 		return count;
 	}
 	
+	// Topological sort
+	public static void dfsTopoSort(Graph v, boolean[] visited, Stack<Graph> stack) {
+		visited[v.val] = true;		
+		for(int i=0;i<v.neighbors.size();i++) {
+			if(!visited[v.neighbors.get(i).val])
+				dfsTopoSort(v.neighbors.get(i), visited, stack);
+		}
+		stack.push(v);
+	}
+	public static void topologicalSort(ArrayList<Graph> list, int n) {
+		Stack<Graph> stack = new Stack<Graph>();
+		boolean[] visited = new boolean[n];
+		for(int i=0;i<list.size();i++) {
+			if(!visited[list.get(i).val]) {				
+				dfsTopoSort(list.get(i), visited, stack);
+			}
+		}
+		
+		while(!stack.isEmpty())
+			System.out.print(stack.pop().val + ",");
+		// 5,0,2,3,1,
+	}
+	
 	public static void main(String[] args) {
 		int v =4;
 		Graph a = new Graph(0);
@@ -143,7 +161,7 @@ public class Graph {
 		//Graph clone = cloneUtil(a);
 		//dfs(clone, visited);
 		// ---Count islands----
-		int M[][]=  new int[][] {{1, 1, 0, 0, 0},
+		/*int M[][]=  new int[][] {{1, 1, 0, 0, 0},
             						{0, 1, 0, 0, 1},
             						{1, 0, 0, 1, 1},
             						{0, 0, 0, 0, 0},
@@ -151,5 +169,30 @@ public class Graph {
 								};
 		int ret = countIslands(M, 5, 5);
 		System.out.println("countIslands=" + ret);
+		*/
+		
+		// Topological sort
+		Graph g = new Graph(5);
+		Graph h = new Graph(0);
+		Graph i = new Graph(1);
+		Graph j = new Graph(2);
+		Graph k = new Graph(3);
+		Graph l = new Graph(4);
+        g.addEdge(g, j);
+        g.addEdge(g, h);
+        g.addEdge(l, h);
+        g.addEdge(l, i);
+        g.addEdge(j, k);
+        g.addEdge(k, i);
+        ArrayList<Graph> list = new ArrayList<Graph>();
+        list.add(g);
+        list.add(h);
+        list.add(i);
+        list.add(j);
+        list.add(k);
+        list.add(l);
+        //4 5 2 3 1 0 or 5 4 2 3 1 0
+		topologicalSort(list, 6);
+		//4,5,0,2,3,1  correct or not??
 	}
 }
