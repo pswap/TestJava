@@ -1,3 +1,5 @@
+package test;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -6,59 +8,60 @@ import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 
-public class Graph {
-	int n;
-	static List<Integer> neighbors[];
-	Graph(int n) { 
-		this.n = n;
-		neighbors = new ArrayList[n];
-		for(int i=0;i<n;i++) {
-			neighbors[i] = new ArrayList<Integer>();
-		}
-	}
-	
-	void addEdge(int from, int to) {
-		neighbors[from].add(to);
-	}
+import javax.annotation.Generated;
 
-	public static void dfs(int v, boolean[] visited) {
-		System.out.println(v);
-		visited[v] = true;
-		Iterator<Integer> it = neighbors[v].listIterator();
-		while(it.hasNext()) {
-			int n = it.next();
-			if(!visited[n])
-				dfs(n, visited);
-		}		
+public class Graph {
+	int val;
+	ArrayList<Graph> neighbors;
+	Graph(int n) { 
+		this.val = n;
+		neighbors = new ArrayList<Graph>();
+		//for(int i=0;i<n;i++) {
+		//	neighbors[i] = new ArrayList<Integer>();
+		//}
 	}
 	
-	public static void bfs(int v, boolean[] visited) {
-		Queue<Integer> q = new LinkedList<Integer>();
+	void addEdge(Graph from, Graph to) {
+		from.neighbors.add(to);
+	} 
+
+	public static void dfs(Graph v, boolean[] visited) {
+		System.out.println(v.val);
+		visited[v.val] = true;
+		for(int i=0;i<v.neighbors.size();i++) {
+			if(!visited[v.neighbors.get(i).val])
+				dfs(v.neighbors.get(i), visited);
+		}	
+	}
+	
+	public static void bfs(Graph v, boolean[] visited) {
+		Queue<Graph> q = new LinkedList<Graph>();
 		q.add(v);
 		while(!q.isEmpty()) {
 			v = q.remove();
-			if(!visited[v]) {
-				System.out.println(v);
-				visited[v] = true;				
-				for(int i=0;i<neighbors[v].size();i++) {
-					q.add(neighbors[v].get(i));
+			if(!visited[v.val]) {
+				System.out.println(v.val);
+				visited[v.val] = true;				
+				for(int i=0;i< v.neighbors.size();i++) {
+					q.add(v.neighbors.get(i));
 				}
 			}
 		}
 	}
 	
-	public static void shortestPath(int v1, int v2) {
-		Queue<Integer> q = new LinkedList<Integer>();
-		HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
+	public static void shortestPath(Graph v1, Graph v2) {
+		Queue<Graph> q = new LinkedList<Graph>();
+		HashMap<Graph, Graph> map = new HashMap<Graph, Graph>();
 		q.add(v1);
 		map.put(v1, null);
 		while(!q.isEmpty()) {
-			int v = q.remove();
-			if(v == v2)
+			Graph v = q.remove();
+			if(v.val == v2.val)
 				break;			
 				
-			for(int i=0;i<neighbors[v].size();i++) {
-				int j = neighbors[v].get(i);
+			// track the previous node or parent for each neighbor of the current node
+			for(int i=0;i<v.neighbors.size();i++) {
+				Graph j = v.neighbors.get(i);
 				if(!map.containsKey(j)) {			
 					q.add(j);
 					map.put(j, v);
@@ -68,27 +71,85 @@ public class Graph {
 		if(map.get(v2) == null)
 			return;
 		StringBuilder path = new StringBuilder();
-		Integer k = map.get(v2);
+		Graph k = map.get(v2);
 		path.append(v2 + " ");
 		while(k != null) {
-			path.append(k + " ");
+			path.append(k.val + " ");
 			k = map.get(k);
 		}
 		System.out.println(path.reverse().toString());
-		
-		
+	}
+	
+	// something is wrong with this function. We are not using the map to store linkages
+	public static Graph cloneGraph(Graph v, Map<Graph, Graph> map) {
+		System.out.println(v.val);
+		Graph clone = new Graph(v.val);
+		map.put(v, clone);
+		for(int i=0;i<v.neighbors.size();i++) {
+			Graph tclone= cloneGraph(v.neighbors.get(i), map);
+			clone.neighbors.add(tclone);
+		}
+		return clone;
+	}
+	public static Graph cloneUtil(Graph v) {
+		Map<Graph, Graph> map = new HashMap<Graph, Graph>();
+		return cloneGraph(v, map);
+	}
+	
+	// ask suman about islands 2 in programcreek later
+	public static void dfsIslands(int a[][], boolean visited[][], int i, int j, int n, int m) {
+		if(i >= n || j >= m || i <0 || j <0 || visited[i][j] || a[i][j] ==0)
+			return;
+		visited[i][j] = true;
+		dfsIslands(a, visited, i+1, j, n, m);
+		dfsIslands(a, visited, i, j+1, n, m);
+		dfsIslands(a, visited, i-1, j, n, m);
+		dfsIslands(a, visited, i, j-1, n, m);
+		dfsIslands(a, visited, i+1, j+1, n, m);
+		dfsIslands(a, visited, i-1, j-1, n, m);
+		dfsIslands(a, visited, i+1, j-1, n, m);
+		dfsIslands(a, visited, i-1, j+1, n, m);
+	}
+	public static int countIslands(int a[][], int n, int m) {
+		int count = 0;
+		boolean visited[][] = new boolean[n][m];
+		for(int i=0;i< n;i++) {
+			for(int j=0;j< m; j++) {
+				if(!visited[i][j] && a[i][j] == 1) {
+					dfsIslands(a, visited, i, j, n, m);
+					count++;
+				}
+			}
+		}
+		return count;
 	}
 	
 	public static void main(String[] args) {
 		int v =4;
-		Graph a = new Graph(v);
-		a.addEdge(0, 1);
+		Graph a = new Graph(0);
+		Graph b = new Graph(1);
+		Graph c = new Graph(2);
+		Graph d = new Graph(3);
+		a.addEdge(a, b);
 		//a.addEdge(1, 2);
-		a.addEdge(0, 3);
-		a.addEdge(3, 2);
+		a.addEdge(a, d);
+		a.addEdge(d, c);
 		boolean visited[] = new boolean[v];
-		//dfs(0, visited);
+		//dfs(a, visited);
 		//bfs(0, visited);
-		shortestPath(0, 2);
+		//shortestPath(0, 2);
+		//Graph newClone = new Graph(0);
+		// ---Graph clone------
+		//Graph clone = cloneUtil(a);
+		//dfs(clone, visited);
+		// ---Count islands----
+		int M[][]=  new int[][] {{1, 1, 0, 0, 0},
+            						{0, 1, 0, 0, 1},
+            						{1, 0, 0, 1, 1},
+            						{0, 0, 0, 0, 0},
+            						{1, 0, 1, 0, 1}
+								};
+		int ret = countIslands(M, 5, 5);
+		System.out.println("countIslands=" + ret);
 	}
 }
