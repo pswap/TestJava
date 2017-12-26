@@ -20,8 +20,8 @@ public class AlienDictionary {
 			int j =0;
 			while(j < s1.length() && j < s2.length()) {
 				if(s1.charAt(j) != s2.charAt(j)) {
-					graphList.
-					s1.charAt(j).addEdge(s2.charAt(j));
+					//graphList.
+					//s1.charAt(j).addEdge(s2.charAt(j));
 				} 
 				j++;
 			}
