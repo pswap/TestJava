@@ -142,8 +142,32 @@ public class Graph {
 		// 5,0,2,3,1,
 	}
 	
+	public static boolean detectCycleUtil(Graph v, boolean[] visited, boolean[] stack) {
+		if(stack[v.val] == true) 
+			return true;
+		visited[v.val] = true;
+		stack[v.val] = true;
+		for(int i=0;i<v.neighbors.size();i++) {
+			if(!visited[v.neighbors.get(i).val] && detectCycleUtil(v.neighbors.get(i), visited, stack)) {
+				//detectCycle(v.neighbors.get(i), v.val);
+				return true;
+			} 
+			else if(stack[v.val])
+				return true;
+		}
+		stack[v.val] = false;
+		return false;
+	}
+	
+	public static boolean detectCycle(Graph v, int src) {
+		boolean visited[] = new boolean[4];
+		boolean stack[] = new boolean[4];
+		return detectCycleUtil(v, visited, stack);
+	}
+	
 	public static void main(String[] args) {
-		int v =4;
+		// basic initialization
+		/*int v =4;
 		Graph a = new Graph(0);
 		Graph b = new Graph(1);
 		Graph c = new Graph(2);
@@ -153,6 +177,7 @@ public class Graph {
 		a.addEdge(a, d);
 		a.addEdge(d, c);
 		boolean visited[] = new boolean[v];
+		*/
 		//dfs(a, visited);
 		//bfs(0, visited);
 		//shortestPath(0, 2);
@@ -171,6 +196,7 @@ public class Graph {
 		System.out.println("countIslands=" + ret);
 		*/
 		
+		/*
 		// Topological sort
 		Graph g = new Graph(5);
 		Graph h = new Graph(0);
@@ -192,7 +218,21 @@ public class Graph {
         list.add(k);
         list.add(l);
         //4 5 2 3 1 0 or 5 4 2 3 1 0
-		topologicalSort(list, 6);
+		//topologicalSort(list, 6);
 		//4,5,0,2,3,1  correct or not??
+        */
+		
+		Graph a = new Graph(0);
+		Graph b = new Graph(1);
+		Graph c = new Graph(2);
+		Graph d = new Graph(3);
+	    a.addEdge(a, b);
+	    a.addEdge(a, c);
+	    a.addEdge(b, c);
+	    a.addEdge(c, a);
+	    a.addEdge(c, d);
+	    a.addEdge(d, d);
+        boolean ret = detectCycle(a, 2);
+        System.out.println("cyclic DAG or not=" + ret);
 	}
 }
