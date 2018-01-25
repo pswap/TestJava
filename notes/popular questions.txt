@@ -1,0 +1,4 @@
+Facebook:
+Merge K sorted arrays, size N each
+Find k largest elements in an infinite array
+sibling pointers
