@@ -13,11 +13,18 @@ public class BalancedPartition {
 	
 	public static boolean bpDP(int[] a, int k) {
 		int n = a.length;
-		int dp[] = new int[n+1];
-		dp[0] = a[0]; 
+		boolean[][] dp = new boolean[k/2+1][n+1];
 		
-		for(int i=0;i<n;i++) {
-			dp[i] = k - dp[i-1];
+		for(int i=0;i<k/2;i++) {
+			dp[i][0] = false;
+		}
+		for(int j=0;j<n;j++) {
+			dp[0][j] = true;
+		}
+		for(int i=1;i<=k/2;k++) {
+			for(int j=1;j<=n;j++) {
+				dp[i][j] = dp[i][j] || dp[i-a[j-1]][j];
+			}
 		}
 	}
 	public static void main(String[] args) {
