@@ -49,10 +49,15 @@ public class MinimumWindowSubString {
 			if(tmp < minWin) {
 				minWin = r - l + 2;
 				minl = l-1;
-				minr = r-1;
+				minr = r;
 			}
 			r++;
 		}
+		
+		// no minwin found
+		if(minWin > s.length())
+			return "";
+		
 		System.out.println("lenght of minWindow=" + minWin + ", start at =" + minl + ", to =" + minr);
 		String ret = "";
 		for(int i=minl; i<=minr; i++)
