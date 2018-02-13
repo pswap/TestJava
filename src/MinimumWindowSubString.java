@@ -45,7 +45,7 @@ public class MinimumWindowSubString {
 					break;
 			}
 			
-			int tmp = r - (l-1)+1; //r-(l-1)+1; dont need +1 as said in the class as the stop condition in r loop is different
+			int tmp = r - (l-1)+1;
 			if(tmp < minWin) {
 				minWin = r - l + 2;
 				minl = l-1;
@@ -64,13 +64,18 @@ public class MinimumWindowSubString {
 			ret += s.charAt(i);
 		return ret;
 	}
+	
+	
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		String s = "ADOBECODEBANC"; //this is a test string";//"abcdba";
-		String T = "ABC"; //"tist";//"bd";
+		String s = "acdbddddddddaaaaaaaadabbbba";//"ADOBECODEBANC"; //this is a test string";//"abcdba";
+		//String s = "ADOBECCCODEBANC";
+		//String T = "ABC";
+		String T = "baad"; //"ZYD";////"ABC"; //"tist";//"bd";
 		String ret = minWindow(s, T);
 		System.out.println("min string = " + ret);
+		//adab
 	}
 
 }
