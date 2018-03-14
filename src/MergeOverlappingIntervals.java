@@ -38,7 +38,7 @@ public class MergeOverlappingIntervals {
 		Interval prev = a.get(0);
 		for(int i=1;i<a.size();i++) {
 			Interval curr = a.get(i);
-			if(curr.start > prev.end) {  // means these are overlapping
+			if(curr.start > prev.end) {  // means these are not overlapping
 				result.add(prev);
 				prev = curr;
 			} else {

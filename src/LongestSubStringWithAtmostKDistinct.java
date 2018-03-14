@@ -6,12 +6,12 @@ public class LongestSubStringWithAtmostKDistinct {
 	//eceba -> ece
 	
 	// tracking the element counts is the key here
-	public static int longestSubStringWithAtmostKDistinct(String s, int k) {
-		int l = 0;
+	public static String longestSubStringWithAtmostKDistinct(String s, int k) {
+		int l = 0, i=0;
 		int max = Integer.MIN_VALUE;
 		int maxl=0, maxi=0;
 		Map<Character, Integer> hm = new HashMap<Character, Integer>();
-		for(int i=0;i<s.length();i++) {
+		for(i=0;i<s.length();i++) {
 			if(hm.containsKey(s.charAt(i)))
 				hm.put(s.charAt(i), hm.get(s.charAt(i))+1);
 			else
@@ -32,10 +32,14 @@ public class LongestSubStringWithAtmostKDistinct {
 				maxi = i;
 			}
 		}
-		for(int i=maxl;i<=maxi;i++) 
-			System.out.println(s.charAt(i));
-		System.out.println("max=" + max);
-		return max;
+		String res = "";
+        if(i == s.length() && l == 0 && hm.size() == 1)
+            return res;
+		for(i=maxl;i<=maxi;i++) 
+			//System.out.println(s.charAt(i));
+            res += s.charAt(i);
+		System.out.println("max=" + max + " , result =" + res);
+		return res;
 	}
 	
 	//Find the length of the longest substring T of a given string (consists of lowercase letters only) such that every character in T appears no less than k times.
@@ -43,7 +47,7 @@ public class LongestSubStringWithAtmostKDistinct {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		String s = "abcbbbbcccbdddadacb"; //"eceba";
+		String s = "aaaaa"; //"abcbbbbcccbdddadacb"; //"eceba";
 		int k =2;
 		longestSubStringWithAtmostKDistinct(s, k);
 

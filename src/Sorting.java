@@ -45,6 +45,32 @@ public class Sorting {
 		i = temp;
 	}
 	
+	public static int partition2(int[] a, int i, int j) {
+		int pivot = a[i];
+		//int i = l+1;
+		//int j = r;
+		while(i <= j) {
+			while(a[i] < pivot)
+				i++;
+			while(a[j] > pivot) 
+				j--;
+			if(i <= j) {
+				int temp = a[i];
+				a[i] = a[j];
+				a[j] = temp;
+				i++;j--;
+			} 
+		}
+		return i;
+	}
+	public static void quickSort2(int[] a, int l, int r) {
+		if(l < r) {
+			int pi = partition2(a, l, r);
+			quickSort2(a, l, pi-1);
+			quickSort2(a, pi, r);
+		}
+	}
+	
 	public static int partition(int[] a, int l, int r) {
 		int pivot = a[l];
 		int i = l+1;
@@ -70,7 +96,7 @@ public class Sorting {
 	
 	public static void quickSort(int[] a, int l, int r) {
 		if(l < r) {
-			int pi = partition(a, l, r);
+			int pi = partition2(a, l, r);
 			quickSort(a, l, pi-1);
 			quickSort(a, pi+1, r);
 		}
@@ -85,7 +111,8 @@ public class Sorting {
 		for(int i=0;i<a.length;i++)
 			System.out.print(a[i] + ",");
 		//mergeSort(a, l, r-1);
-		quickSort(a, l, r-1);
+		//quickSort(a, l, r-1);
+		quickSort2(a, l, r-1);
 		System.out.println();
 		for(int i=0;i<a.length;i++)
 			System.out.print(a[i] + ",");
