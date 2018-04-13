@@ -1,5 +1,5 @@
 
-public class timepass {
+public class ArrayMisc {
 	
 	 static void groupEvenOddNumbers(int[] intArr) {
 	        int i=0;
@@ -46,6 +46,39 @@ public class timepass {
 			i = j;
 			j = temp;
 	}
+	 
+	 public static void reverse(char[] a, int s, int e) {	
+		while(s <= e) {
+			char temp = a[e];
+			a[e] = a[s];
+			a[s] = temp;
+			s++; e--;
+		}
+	}
+	 public static String reverseSen(String str) {
+		 char[] a = str.toCharArray();
+		 reverse(a, 0, str.length()-1);
+		 int i=0, j=0;
+		 for(i=0; i<a.length; i++) {
+			 if(a[i] == ' ') {
+				 reverse(a, j, i-1);
+				 j = i+1;
+			 }		 			 
+		 }
+		 reverse(a, j, i-1);  // reverse last word
+		 return new String(a);
+	 }
+	 
+	 public static String reverseString(String str) {
+		 int s=0;int e=str.length()-1;
+		 char[] a = str.toCharArray();
+		 while(s <= e) {
+			 char temp = a[s];
+			 a[s++] = a[e];
+			 a[e--] = temp; 
+		 }
+		 return new String(a);
+	 }
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -58,6 +91,10 @@ public class timepass {
 		int i=2, j=3;
 		swap(i, j);
 		System.out.println("i= " + i + ", j=" + j);
+		
+		System.out.println(reverseSen("hello how are you"));
+		
+		System.out.println(reverseString("swathi"));
 	}
 
 }
