@@ -1,0 +1,13 @@
+- No default arguments for functions in java. We have to use method overloading or builder pattern. Or may be pass a map with list of all parameter values.
+- Integer.parseInt(str) returns a primitive int whereas Integer.valueof(str) returns a new instance of Integer. Otherwise they are the same
+- A return statement in a finally block always trumps any other return statements in try blocks . SO this is a very dangerous practice.
+- Finally will always execute except: 1. If you invoke system.exit()  
+									  2. If the JVM crashes first;
+									  3. If the JVM reaches an infinite loop (or some other non-interruptable, non-terminating statement) in the try or catch block;
+									  4. If the OS forcibly terminates the JVM process; e.g. "kill -9 " on UNIX.
+									  5. If the host system dies; e.g. power failure, hardware error, OS panic, etcetera.
+- Autoboxing : conversion from primitive types to object wrapper classes like Integer/Long.
+- java caches values from -127 to 127 in the same reference. So when we compare two numbers that are in this range, we will always get true becuase it references to the same object.
+ie  Integer a = 127; Integer b = 127; a==b ? true;
+	Integer a = 128; Integer b = 128; a==b ? false;
+	Integer a = 127; Integer b = 127; a.equals(b) ? true;
