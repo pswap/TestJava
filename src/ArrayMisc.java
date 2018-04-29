@@ -79,6 +79,50 @@ public class ArrayMisc {
 		 }
 		 return new String(a);
 	 }
+	 
+	//find minimum in a rotated sorted array
+		 static int findMinimum(int[] a) {
+	        if(a.length == 0 || a == null)
+	            return -1;
+	        int l =0;
+	        int r = a.length-1;
+	        
+	        while(l < r) {
+	        		if(a[l] < a[r])
+		            return a[l];
+	            int m = (r+l)/2;
+	             if(a[l] <= a[m])
+	                l = m+1;
+	            else
+	                r = m;
+	        }
+	        return a[l];
+	    }
+		 //{5, 6, 7, 8, 9, 10, 1, 2, 3};key = 3
+		// 6,7,8,2,3,4,5 
+		 static int findElement(int[] a, int k) {
+			 if(a.length ==0 || a== null)
+				 return -1;
+			 int l = 0;
+			 int r = a.length - 1;
+			 while(l<=r) {
+				 int m = l+(r-l)/2;		 
+				 if(a[m] == k)
+					 return m;
+				 if (a[l] <= a[m]) {
+					 if(k >= a[l] && k<=a[m])
+						 r = m-1;
+					 else
+						 l = m+1;
+				 } else {
+					 if(k <= a[r] && k>=a[m])
+						 l = m+1;
+					 else
+						 r = m-1;
+				 }
+			 }
+			 return -1;
+		 }
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -98,3 +142,4 @@ public class ArrayMisc {
 	}
 
 }
+

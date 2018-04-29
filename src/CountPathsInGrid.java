@@ -57,7 +57,7 @@ public class CountPathsInGrid {
 	public static int maxPathDP(int[][] a, int m, int n) {
 		int[][] dp = new int[m][n];
 		dp[0][0] = a[0][0];
-		for(int i=1;i<m;i++) {
+		for(int i=1;i<m;i++) {	
 			dp[i][0] = a[i][0] + dp[i-1][0];
 		}
 		for(int i=1;i<n;i++) {
