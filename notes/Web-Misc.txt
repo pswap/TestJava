@@ -1,0 +1,5 @@
+URL: Uniform resource locator  (a type of URI, uniform resource identifier)
+REST (REpresentational State Transfer) :
+- A primary benefit of using REST, both from a client and server's perspective, is REST-based interactions happen using constructs that are familiar to anyone who is accustomed to using the internet's Hypertext Transfer Protocol (HTTP).
+- REST takes a resource-based approach to web-based interactions. With REST, you locate a resource on the server, and you choose to either update that resource, delete it or get some information about it.
+- With SOAP, the client doesn't choose to interact directly with a resource, but instead calls a service, and that service mitigates access to the various objects and resources behind the scenes.
