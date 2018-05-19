@@ -11,3 +11,13 @@
 ie  Integer a = 127; Integer b = 127; a==b ? true;
 	Integer a = 128; Integer b = 128; a==b ? false;
 	Integer a = 127; Integer b = 127; a.equals(b) ? true;
+	
+- How to make class immutable (or Given a class, how to make sure other developers don't change it)
+https://howtodoinjava.com/core-java/basics/how-to-make-a-java-class-immutable/
+  - Make private constructor and use factory methods to generate new instances of the given class
+  - Make all variables private and final
+  - dont provide setters
+  - make class final so that subclasses cannot override
+  - Perform cloning of objects in the getter methods to return a copy rather than returning the actual object reference.
+  
+-https://howtodoinjava.com/interview-questions/core-java-interview-questions-series-part-1/
