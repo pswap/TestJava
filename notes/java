@@ -20,4 +20,11 @@ https://howtodoinjava.com/core-java/basics/how-to-make-a-java-class-immutable/
   - make class final so that subclasses cannot override
   - Perform cloning of objects in the getter methods to return a copy rather than returning the actual object reference.
   
--https://howtodoinjava.com/interview-questions/core-java-interview-questions-series-part-1/
+- https://howtodoinjava.com/interview-questions/core-java-interview-questions-series-part-1/
+- https://way2java.com/oops-concepts/java-made-clear-difference-between-abstract-class-and-final-class/
+
+- Does wait() method have to be called from synchronized method or block? Why?
+Yes, Using synchronized makes a method / block accessible by only on thread at a time. So, yes, it's thread-safe.
+The two concepts are combined, not mutually-exclusive. When you use wait() you need to own the monitor on that object. 
+So you need to have synchronized(..) on it before that. Using .wait() makes the current thread stop until another thread calls .notify() on the object it waits on. 
+This is an addition to synchronized, which just ensures that only one thread will enter a block/method.
