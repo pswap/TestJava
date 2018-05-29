@@ -65,6 +65,46 @@ ALGORITHM
 	        }
 	        return head;
 	    }
+	    
+	    /*
+	     * Swap Kth node from beginning with Kth node from end in a Linked List
+Given a singly linked list, swap kth node from beginning with kth node from end. Swapping of data is not allowed, only pointers should be changed. 
+	     */
+    static ListNode swapNodes(ListNode pList, int iK) {
+        ListNode kEnd = pList;
+        ListNode fast = pList;
+        ListNode kBeg = pList;
+        ListNode pBeg = null;
+        ListNode pEnd = null;
+        ListNode temp = null;
+        if(pList == null)
+            return null;
+        int cnt =0;
+        // get kth node from end
+        while(cnt < iK) {
+            fast = fast.next;
+            cnt++;
+        }
+        while(fast != null) {
+            pEnd = kEnd;
+            kEnd = kEnd.next;
+            fast = fast.next;
+        }
+        // move to kth node from beginning
+        cnt = 0;
+        while(kBeg != null && cnt++ < iK) {
+            pBeg = kBeg;
+            kBeg = kBeg.next;
+        }
+        // swap
+        pBeg.next = kEnd;
+        pEnd.next = kBeg;
+        temp = kEnd.next;
+        kEnd.next = kBeg.next;
+        kBeg.next = temp;
+        
+        return pList;
+    }
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub

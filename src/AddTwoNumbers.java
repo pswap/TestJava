@@ -1,19 +1,10 @@
 // https://leetcode.com/problems/add-two-numbers/description/
-class Node {
-	int val;
-	Node next;
-	Node(int val) {
-		this.val = val;
-		this.next = null;
-	}
-}
-
 public class AddTwoNumbers {
 	
-	public static void addNumbers(Node l1, Node l2) {
-		Node p1 = l1; 
-		Node p2 = l2;
-		Node p3 = new Node(0);
+	public static void addNumbers(ListNode l1, ListNode l2) {
+		ListNode p1 = l1; 
+		ListNode p2 = l2;
+		ListNode p3 = new ListNode(0);
 		int carry = 0;
 		while(p1 != null || p2 != null) {
 			int x = p1 == null ? 0 : p1.val;
@@ -22,7 +13,7 @@ public class AddTwoNumbers {
 			carry = temp/10;
 			int newval = temp%10;
 			
-			p3.next = new Node(newval);
+			p3.next = new ListNode(newval);
 			p3 = p3.next;
 			if(p1!= null)
 				p1 = p1.next;
@@ -30,7 +21,7 @@ public class AddTwoNumbers {
 				p2 = p2.next;
 		}
 		if(carry >0)
-			p3.next = new Node(carry);
+			p3.next = new ListNode(carry);
 	}
 
 	public static void main(String[] args) {

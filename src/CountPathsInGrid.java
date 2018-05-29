@@ -24,18 +24,25 @@ public class CountPathsInGrid {
 	}
 	
 	public static void printPaths(int[][] grid, int m, int n, int i, int j, String path) {
-		if(i == m-1) {
-			for(int k=j;k<n;k++)
-				path += grid[i][k] + "-";
+//		if(i == m-1) {
+//			for(int k=j;k<n;k++)
+//				path += grid[i][k] + "-";
+//			System.out.println(path);
+//			return;
+//		}
+//		if(j == n-1) {
+//			for(int k=i;k<m;k++)
+//				path += grid[k][j] + "-";
+//			System.out.println(path);
+//			return;
+//		}
+		if(i==m-1 && j==n-1) {
+			path += grid[i][j];
 			System.out.println(path);
 			return;
 		}
-		if(j == n-1) {
-			for(int k=i;k<m;k++)
-				path += grid[k][j] + "-";
-			System.out.println(path);
+		if(i >= m || j >= n)
 			return;
-		}
 		path += grid[i][j] + "-";
 		printPaths(grid, m, n, i+1, j, path);
 		printPaths(grid, m, n, i, j+1, path);
@@ -81,17 +88,18 @@ public class CountPathsInGrid {
 				 {1, 5, 3} };
 		
 		// print paths
-		/*int m = 3, n=3;		
+		int m = 3, n=3;		
 		printPaths(grid, m,n, 0, 0, new String());
-		*/
+		
 		
 		// max path sum
-		int[][] A = { { 1, 7, 9, 2 }, { 8, 6, 3, 2 }, { 1, 6, 7, 8 },
+		/*int[][] A = { { 1, 7, 9, 2 }, { 8, 6, 3, 2 }, { 1, 6, 7, 8 },
 					{ 2, 9, 8, 2 } };
 		int maxSum = maxPath(grid, 2, 2);
 		//int maxSumDP = maxPathDP(grid, 3, 3);
 		System.out.println("max path sum = " + maxSum);
 		//System.out.println("max path sum DP= " + maxSumDP);
+		 */
 	}
 
 }

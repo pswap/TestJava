@@ -24,6 +24,7 @@ class bstWrapper {
 public class LargestBST {
 	// recursively check if curret node is larger than max of left and less than min of right
 	// we need several return values like isbst or not, size of max bst, min and max at the current node. so create a wrapper class with those
+	// https://www.programcreek.com/2014/07/leetcode-largest-bst-subtree-java/
 	
 	public static bstWrapper getLargestBST(Node1 n) {
 		bstWrapper curr = new bstWrapper();
