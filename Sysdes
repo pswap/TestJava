@@ -1,0 +1,38 @@
+Twitter:
+1. Funtional requirements: 
+    1. User login management
+    2. Generate tweet
+    3. Follow/unfollow
+    4. Timeline
+    
+UserLogin:
+API/DataModel: userid, name etc attributes, followers, following
+Tiers required: persistent, cache not needed
+Why dist? Number of new records inserted is very low
+          latency is not priority
+           throughput per sec is not high
+           so no need for dist
+
+Tweet generation service:
+API/Datamodel: userid, tweet content, tweetid
+why dist: Total #tweets/sec = 6000
+          size of each tweet 150 
+          so total bytes : 9MB/s
+          If we want to store 3 years worth of tweets: 9M*1000days*10000s/day = 9TB
+Source of truth (tiers): persistent and in memory cache
+      we can have may be 4,5 datacenters in different geo locations
+      Atleast 2,3 replicas
+      we can use k-v store 
+      
+Followers: 
+API: userid, adjacencty list
+      in storage tier, we store as nodes and edges of graph
+      depending on number of users, we might need dist system.
+     
+Timeline:
+API: userid, followers, list of contents
+Datatier: consistent and cache is needed (how to determine if it is inmemory or not)
+We can use pubsub to transport tweet to the cache
+
+
+ 
