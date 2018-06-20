@@ -35,4 +35,56 @@ Datatier: consistent and cache is needed (how to determine if it is inmemory or 
 We can use pubsub to transport tweet to the cache
 
 
+Uber:
+1. Functional requirements:
+        1. user management service
+        2. trip management
+        3. payments
+        4. location service
+        5. locate driver and dispatch service
+        6. reviews
+ 
+ Trip management:
+ API/datamodel: tripid, userinfo, driverinfo, vehicleid, destination, cost, status
+ data tier(source of truth): persistance and cache are required, 
+        avg number of trips per day = 10 million
+  dist system not needed (why?)
+  
+ Location service:
+ API: userid, driverid, current location nodes, destination, previous location nodes
+ data tier: both persistent and in memory cache
+ (how to design the database here dist system?)
+ 
+ Payments:
+ API: userid, tripid, cost, type of payment
+ data tier: persistent
+ dist system: not needed since we may not access payments history for each user often (check with instr)
+ 
+ URL Shortener:
+ Requirements: Given a long url, return a short url
+               If short url is accessed they should be redirected to the corresponding long url
+               
+  API/data model: K-V store
+                  short url as key, long url as value, creation time, expiration time, stats
+                  
+   cache tier vs source of truth tier???
+   
+   API for put:
+   PUT longURL 
+   character set available : 26 uppercase, 26 lowercase, 9 numers = 62 
+   #of characters in short url:6 or 7 => total urls that can be generated = 62^7
+   
+   A hash function (long url + randomness or salt)%62^7
+   If the row is already present in hashmap, retry. else insert it
+   If we use a table with auto increment key, then it will generate a key automatically. Now convert that to a 62 base
+   0*62^6 + 0*62^5+ 0*62…+1*62+3*1
+	If x= 7, AAAAABD,
+
+GET /db/table/AAAAADB -> convert back to unique id 65 GET/db/table/65
+For gets, decode the hash of base 62 and Look up the key in my master hash table to get the full URL
+Design:
+each tier is a distributed system : Application server tier
+	Cache Server tier (if necessary) - we do need
+	Source of truth or Storage/Persistence Tier (if necessary) - we do need
+
  
