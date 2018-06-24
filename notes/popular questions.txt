@@ -3,5 +3,8 @@ Merge K sorted arrays, size N each
 Find k largest elements in an infinite array
 sibling pointers
 
+--
+Shortest word distance: https://www.programcreek.com/2014/08/leetcode-shortest-word-distance-java/
+
 
 HitCounter : http://shirleyisnotageek.blogspot.com/2016/10/design-hit-counter.html
