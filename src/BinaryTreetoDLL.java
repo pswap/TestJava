@@ -1,31 +1,49 @@
-class Node2 {
-		int val;
-		Node2 left, right;
-		Node2(int val) {
-			this.val = val;
-			this.left = this.right = null;
-		}
-}
+//http://www.techiedelight.com/place-convert-given-binary-tree-to-doubly-linked-list/
+//https://www.geeksforgeeks.org/convert-given-binary-tree-doubly-linked-list-set-3/
 public class BinaryTreetoDLL {
-		
-	public static void BTtoDLL(Node2 root) {
-		Node2 prev = new Node2(0);
-		helper(root, prev);
-	}
 	
-	public static void helper(Node2 root, Node2 prev) {
+	static TreeNode prev = null;
+	
+	
+	// these Bt to dll functions are not working
+	public static void BTtoDLL(TreeNode root) {
 		if(root == null)
 			return;
-		helper(root.left, prev);
+		BTtoDLL(root.left);
 		if(prev != null) {
 			prev.right = root;
 			root.left = prev;
 		}  
 		prev = root;
-		helper(root.right, prev);
+		BTtoDLL(root.right);
 	}
 	
-	public static void printList(Node2 node)
+	public static void BTtoDLL2(TreeNode root, TreeNode head, TreeNode prev1) {
+		if(root == null)
+			return;
+		BTtoDLL2(root.left,head,  prev1);
+		if(prev1 != null) {
+			root.left = prev1;
+			prev1.right = root;		
+		} else
+			head = root;
+		prev1 = root;
+		BTtoDLL2(root.right, head, prev1);
+	}
+	
+	//https://leetcode.com/problems/flatten-binary-tree-to-linked-list/discuss/36977/My-short-post-order-traversal-Java-solution-for-share
+	public static void FlattenList(TreeNode root) {
+		if(root == null)
+			return;
+		FlattenList(root.left);
+		FlattenList(root.right);
+		
+		root.right = prev;
+		root.left = null;
+		prev = root;		
+	}
+	
+	public static void printList(TreeNode node)
     {
         while (node != null) 
         {
@@ -37,15 +55,16 @@ public class BinaryTreetoDLL {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		Node2 root = new Node2(10);
-        //tree.root = new Node2(10);
-        root.left = new Node2(12);
-        root.right = new Node2(15);
-        root.left.left = new Node2(25);
-        root.left.right = new Node2(30);
-        root.right.left = new Node2(36);
-		BTtoDLL(root);
+		TreeNode root = new TreeNode(10);
+        root.left = new TreeNode(12);
+        root.right = new TreeNode(15);
+        root.left.left = new TreeNode(25);
+        root.left.right = new TreeNode(30);
+        root.right.left = new TreeNode(36);
+        //BTtoDLL2(root, root, null);
+		//printList(root);
 		
+		FlattenList(root);
 		printList(root);
 	}
 

@@ -2,3 +2,13 @@ Facebook:
 Merge K sorted arrays, size N each
 Find k largest elements in an infinite array
 sibling pointers
+
+
+List: 
+Serialize and deserialize tree
+Convert list to binary tree and viceversa
+flatten list
+list iterator
+
+Tree:
+Tree iterator

@@ -8,45 +8,34 @@ import java.util.Queue;
  */
 public class WordLadder {
 		
-	public static int getMinLength(String begin, String end, Set<String> dict) {
-		Queue<String> currLevel = new LinkedList<String>();
-		Queue<String> nextLevel = new LinkedList<String>();
-		int level = 1;
-		currLevel.add(begin);
+	public static int wordLadder(String s1, String s2, Set<String> dict) {
+		Queue<String> q = new LinkedList<String>();
+		q.add(s1);
+		dict.add(s2);
 		
-		while(!currLevel.isEmpty()) {
-			level++;
-			while(!currLevel.isEmpty()) {
-
-				String s = currLevel.poll();
-				char[] a = s.toCharArray();	
-				
-				for(int i=0;i<a.length;i++) {
-					//System.out.println("starting with i=" + i);
+		int count = 1;
+		
+		while(!q.isEmpty()) {
+			String s = q.remove();
+			if(s.equals(s2))
+				return count;
+			
+			char[] tmp = s.toCharArray();
+			for(int i=0;i<tmp.length;i++) {
+				char a = tmp[i];
+				for(char j='a';j<='z';j++) {
+					//if(tmp[i] != j)
+						tmp[i] = j;
 					
-					for(char j='a'; j<='z';j++) {
-						// save current char in word					
-						char t = a[i];
-						if(a[i] != j)
-							a[i] = j;
-						// create new string with replaced char
-						String temp = new String(a);
-						if(temp.equals(end))
-							return level;
-
-						if(dict.contains(temp)) {
-							//System.out.println("path=" + temp);
-							nextLevel.add(temp);
-							dict.remove(temp);
-						}	
-						// restore the char back
-						a[i] = t;
+					String ts = new String(tmp); //.toString();					
+					if(dict.contains(ts)) {
+						q.add(ts);
+						dict.remove(ts);
 					}
+					tmp[i] = a;
 				}
 			}
-			currLevel = nextLevel;
-			nextLevel = new LinkedList<String>();		
-		
+			count++;
 		}
 		return 0;
 	}
@@ -61,7 +50,9 @@ public class WordLadder {
 		dict.add("dog");
 		dict.add("lot");
 		dict.add("log");
-		int ret = getMinLength(begin, end, dict);
+		dict.add("cog");
+		//int ret = getMinLength(begin, end, dict);
+		int ret = wordLadder(begin, end, dict);
 		//int ret = length2(begin, end, dict);
 		System.out.println("ret=" + ret);
 
