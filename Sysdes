@@ -86,5 +86,28 @@ Design:
 each tier is a distributed system : Application server tier
 	Cache Server tier (if necessary) - we do need
 	Source of truth or Storage/Persistence Tier (if necessary) - we do need
+	
+	
+	
+	
+	
+Elevator:
+Elevator might be assigned to a building.
+Elevator class:
+current floor
+building
+
+Controller class:
+elevators[] : Elevator
+
++requestelevator(sourcefloot, direction)
+
+Building class:
+# of floors : int
+maxfloors :i nt
+
+floor class
+direction class
+
 
  
