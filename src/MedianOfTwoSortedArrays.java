@@ -24,6 +24,7 @@ public class MedianOfTwoSortedArrays {
         
         int low2 = 0;
         int high2 = arr2.length-1;
+        
 
         while(true){
             

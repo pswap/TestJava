@@ -1,4 +1,5 @@
-
+//https://leetcode.com/problems/serialize-and-deserialize-binary-tree/discuss/74253/Easy-to-understand-Java-Solution
+// https://gist.github.com/bittib/5620951
 public class SerializeDeserializeTree {
 	
 	public static void serialize(TreeNode root, StringBuilder sb) {
@@ -18,7 +19,8 @@ public class SerializeDeserializeTree {
 	}
 
 	public static TreeNode buildTree(String[] s, int i) {
-		if(s[i] == '#')
+		String p = s[i];
+		if(p.equals('X'))
 			return null;
 		TreeNode root = new TreeNode(Integer.parseInt(s[i]));
 		root.left = buildTree(s, i++);

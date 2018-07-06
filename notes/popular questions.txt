@@ -2,7 +2,8 @@ Facebook:
 Merge K sorted arrays, size N each
 Find k largest elements in an infinite array
 sibling pointers
-
+printe vertical order tree
+Inorder successor of tree
 
 List: 
 Serialize and deserialize tree
@@ -12,3 +13,11 @@ list iterator
 
 Tree:
 Tree iterator
+
+--
+Shortest word distance: https://www.programcreek.com/2014/08/leetcode-shortest-word-distance-java/
+
+
+HitCounter : http://shirleyisnotageek.blogspot.com/2016/10/design-hit-counter.html
+
+fdafs
