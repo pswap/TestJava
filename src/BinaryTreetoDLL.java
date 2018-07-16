@@ -3,34 +3,44 @@
 public class BinaryTreetoDLL {
 	
 	static TreeNode prev = null;
+	static TreeNode head = null;
 	
-	
-	// these Bt to dll functions are not working
+	//figure out how to pass head in function def but not as a variable
+	// same code can be used for bst to DLL
 	public static void BTtoDLL(TreeNode root) {
 		if(root == null)
 			return;
 		BTtoDLL(root.left);
-		if(prev != null) {
-			prev.right = root;
+		if(prev == null) 
+			head = root;
+		else {
 			root.left = prev;
+			prev.right = root;
 		}  
 		prev = root;
 		BTtoDLL(root.right);
 	}
 	
-	public static void BTtoDLL2(TreeNode root, TreeNode head, TreeNode prev1) {
+	// this is same as bst to circular dll and bst to sorted dll
+	//http://yuanhsh.iteye.com/blog/2194096
+	public static TreeNode BSTtoCircularSortedDLL(TreeNode root) {
 		if(root == null)
-			return;
-		BTtoDLL2(root.left,head,  prev1);
-		if(prev1 != null) {
-			root.left = prev1;
-			prev1.right = root;		
-		} else
+			return null;
+		BSTtoCircularSortedDLL(root.left);
+		root.left = prev;
+		if(prev == null) 
 			head = root;
-		prev1 = root;
-		BTtoDLL2(root.right, head, prev1);
+		else {
+			prev.right = root;
+		}
+		prev = root;
+		TreeNode tempright = root.right; //need this as we need to recurse 
+		head.left = root;
+		root.right = head;
+		BSTtoCircularSortedDLL(tempright);
+		return head;
 	}
-	
+		
 	//https://leetcode.com/problems/flatten-binary-tree-to-linked-list/discuss/36977/My-short-post-order-traversal-Java-solution-for-share
 	public static void FlattenList(TreeNode root) {
 		if(root == null)
@@ -62,10 +72,11 @@ public class BinaryTreetoDLL {
         root.left.right = new TreeNode(30);
         root.right.left = new TreeNode(36);
         //BTtoDLL2(root, root, null);
-		//printList(root);
+        BTtoDLL(root);
+		printList(head);
 		
-		FlattenList(root);
-		printList(root);
+		//FlattenList(root);
+		//printList(root);
 	}
 
 }

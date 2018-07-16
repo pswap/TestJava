@@ -1,0 +1,8 @@
+Flattening:
+Linkedlist flattening : while traversing, store child(next level) nodes to a queue and go through all next. Then remove from queue and repeat
+BinaryTree to Linkedlist flattening:flatten left and right tree and attach each right tree to the right child. set left child to null
+
+Iterator:
+Binary tree iterator : add all left nodes to a stack. For next(), return stack top and add the right child tree to stack. Hasnext() returns stak status
+Flatten nested List iterator : Add all nodes to stack. For next(), return stack.pop. For Hasnext(), check if stack top is a nestedInteger or just int.
+							   If just int, return its value, if nested int, then add all its nodes to stack.

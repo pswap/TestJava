@@ -34,13 +34,14 @@ API: userid, followers, list of contents
 Datatier: consistent and cache is needed (how to determine if it is inmemory or not)
 We can use pubsub to transport tweet to the cache
 
+====================================================
 
 Uber:
 1. Functional requirements:
         1. user management service
         2. trip management
         3. payments
-        4. location service
+        4. location service/dashboard
         5. locate driver and dispatch service
         6. reviews
  
@@ -53,16 +54,73 @@ Uber:
  Location service:
  API: userid, driverid, current location nodes, destination, previous location nodes
  data tier: both persistent and in memory cache
- (how to design the database here dist system?)
+ This service needs two :
+ 	Map datamodel:
+ 		hierarchical k-v store where k : left top coordinate, right bottom coordinate
+ 		value : actual chunk of map with some extra info
+ 	vehicle datamodel: vehicle storage num (VIN), driver, location etc
+ Why distributed: map is static data model. latency should be low. Throughput should be medium-high since map data may not be refreshed often
+ 				  vehicle : storage wise only 1million vehicles. latency:very low. Throughput: #of location updates per sec ~1mil/sec
+ 				  			this is why they need dist sys to support 1mil/sec updates. We don't need all them go into the source of truth. 
+ 				  			instead we can send to cache every x sec but checkpointed to storage once in a while
+ How to shard: horizontal hash based on vin
  
+ How to construct dashboard: will be in cache. it is similar to vehicle feed read by the user
+ datamodel: K-V with key = mapvalue for location id +list of vehicles 
+ vehicle data transported to dashboard cache using pubsub.
+ 	 
  Payments:
  API: userid, tripid, cost, type of payment
  data tier: persistent
  dist system: not needed since we may not access payments history for each user often (check with instr)
  
+ =============================================
+ 
+ Netflix:
+ Func requirements:
+ User registration
+ Content owner registration
+ Content injestion
+ user activity tracking (like how much of movie was watched)
+ recommendation service includes endorse and Dashboard service -> per genre recommendation per user
+ browse and search
+ content delivery
+ payments
+ 
+ Content injestion:
+ Tiers: worker tier for compute(encoding)
+ 		storage tier is needed
+ datamodel: metadata: content id, desc, rating, summary etc, thumbnail pointed to actual data
+ 					storage ~10k movies, store on myswl
+ 					compute : not a lot. so dist not needed
+ 			actual data: video data 
+ 					storate: huge and throughput is IO bound more than cpu
+ 								25MB/s for HD, if 100 mil users are watching -> 2500TB/s
+ 								
+ 					data is stored on amazon ES3 cloud.
+ 					distribute: K-V store has few rows but is too wide. So we do vertical partitioning
+ 					hash(movie id), range of time - > shard 0 -> servers A, C, E
+ 					CDN(content delivery network) caches the movie once it goes to the central data server 	
+ 					
+ Recommendation service:
+ - Endorsment service :
+ <movie id, userid> <rating, comments, freq of watching>
+ data flows to an offline infrastructure which does batch analytics on accumulated data points and updates dashboard
+ 
+  - dashboard service:
+  <userid><list of movies per genre>
+  data flows via pub-sub
+ 
+ =============================================
+ 
  URL Shortener:
  Requirements: Given a long url, return a short url
                If short url is accessed they should be redirected to the corresponding long url
+               it is a single service not microservices:
+               application server tier
+               in memory server tier
+               db server or source of tier server
+               discuss above tiers and then decide if we need dist syst or not
                
   API/data model: K-V store
                   short url as key, long url as value, creation time, expiration time, stats
@@ -87,27 +145,62 @@ each tier is a distributed system : Application server tier
 	Cache Server tier (if necessary) - we do need
 	Source of truth or Storage/Persistence Tier (if necessary) - we do need
 	
+	do we need to scale my storage? then we need dist
+	scale throughput -> # of requests for url handled by api? then we need dist
+	latency? 
+	
+	then talk about # of dist servers; servers needed = min servers depending on storage needed * replication factor, 
+	then partition->how to map data to partition and then place them in servers (consistent hashing is used to put partition data in server)
+	
+	divide entire data set ie 62^7 records into manageable sizes
+	
+	
+	# of requests per sec that we need to serve = Y ops/sec
+	amt of time each request takes = x ms
+	On a commodity server, max 100-200 concurrent connections are alive
+	each connection can perform 1000/x requests  per second
+	total = 100 to 200*(1000/x) requests/sec = ~100k to 200k req/sec
+	typically systems run with under 30-40% utilization 
 	
 	
 	
+	
+=======================================================	
 	
 Elevator:
 Elevator might be assigned to a building.
 Elevator class:
-current floor
-building
+	Controller reference
+	current floor
+	building :Building
+	type
+	direction
+	
+	+ alarm()
+	+ move(from, to)
+	+ stop()
+	+ opendoor()
+	+ closedoor()
 
 Controller class:
-elevators[] : Elevator
+	this directs elevator to move or stop
+	elevators[] : Elevator
 
-+requestelevator(sourcefloot, direction)
++ElevatorRequest(sourcefloot, direction)
++FloorRequest(Direction dir, Elevator e, Floor to, Floor from) - given an elevator and floor from and to, this 
 
 Building class:
-# of floors : int
-maxfloors :i nt
+	# of floors : int
+	maxfloors :i nt
+
+OperationStrategy Class:
+	Controller routes all requests and this determines whether this request is allowed or not
+	boolean ElevatorDecision()
+	boolean floorDecision()
 
 floor class
 direction class
+
 
 
  
