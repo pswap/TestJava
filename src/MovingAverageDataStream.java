@@ -20,6 +20,7 @@ public class MovingAverageDataStream {
 			for(int i : q) {
 				sum += i;
 			}
+			q.offer(val);
 			return sum/q.size();
 		} else {
 			sum += val;
